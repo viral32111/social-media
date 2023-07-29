@@ -1,5 +1,12 @@
 # Social Media
 
+[![CI](https://github.com/viral32111/social-media/actions/workflows/ci.yml/badge.svg)](https://github.com/viral32111/social-media/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/viral32111/social-media/actions/workflows/codeql.yml/badge.svg)](https://github.com/viral32111/social-media/actions/workflows/codeql.yml)
+![GitHub tag (with filter)](https://img.shields.io/github/v/tag/viral32111/social-media?label=Latest)
+![GitHub repository size](https://img.shields.io/github/repo-size/viral32111/social-media?label=Size)
+![GitHub release downloads](https://img.shields.io/github/downloads/viral32111/social-media/total?label=Downloads)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/viral32111/social-media?label=Commits)
+
 This is a full-stack web application of a barebones social media platform, very similar to [Twitter](https://twitter.com).
 
 ## 📡 Technologies
