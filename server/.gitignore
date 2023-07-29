@@ -1,0 +1,5 @@
+# TypeScript
+dist/
+
+# Environment Variables
+.env
