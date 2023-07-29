@@ -1,0 +1,29 @@
+{
+	"name": "social-media",
+	"version": "0.1.0",
+	"description": "My Twitter clone.",
+	"scripts": {
+		"build": "npm run build --prefix server && npm run build --prefix client"
+	},
+	"author": {
+		"name": "viral32111",
+		"email": "contact@viral32111.com",
+		"url": "https://viral32111.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/viral32111/social-media.git"
+	},
+	"bugs": {
+		"url": "https://github.com/viral32111/social-media/issues"
+	},
+	"homepage": "https://github.com/viral32111/social-media",
+	"keywords": [
+		"social-media",
+		"twitter",
+		"full-stack",
+		"web-app"
+	],
+	"license": "AGPL-3.0-only",
+	"private": true
+}
