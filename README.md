@@ -4,7 +4,7 @@ This is a full-stack web application of a barebones social media platform, very 
 
 ## 📡 Technologies
 
-The client-side uses [React](https://react.dev), [TailwindCSS](https://tailwindcss.com), [SASS](https://sass-lang.com) and [jQuery](https://jquery.com). The server-side uses [Node.js](https://nodejs.org), [Express](https://expressjs.com), [MongoDB](https://www.mongodb.com) and [Neo4j](https://neo4j.com). Both sides use [TypeScript](https://www.typescriptlang.org) and [ESLint](https://eslint.org) too. Automated testing is handled by [Mocha](https://mochajs.org) and [Chai](https://www.chaijs.com).
+The client-side uses [React](https://react.dev), [Vite](https://vitejs.dev), [TailwindCSS](https://tailwindcss.com), [SASS](https://sass-lang.com) and [jQuery](https://jquery.com). The server-side uses [Node.js](https://nodejs.org), [Express](https://expressjs.com), [MongoDB](https://www.mongodb.com) and [Neo4j](https://neo4j.com). Both sides use [TypeScript](https://www.typescriptlang.org) and [ESLint](https://eslint.org) too. Automated testing is handled by [Mocha](https://mochajs.org) and [Chai](https://www.chaijs.com).
 
 ## ⚖️ License
 
