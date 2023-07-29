@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+    paths:
+      - 'client/**'
+      - 'server/**'
+      - 'shared/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/ci.yml'
+    branches:
+      - '**'
+    tags:
+      - '*.*.*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm clean-install
+
+      - name: Install client-side dependencies
+        working-directory: client
+        run: npm clean-install
+
+      - name: Install client-side dependencies
+        working-directory: server
+        run: npm clean-install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Upload client-side build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: social-media-client
+          path: |
+            client/dist/
+            client/package.json
+            client/package-lock.json
+
+      - name: Upload server-side build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: social-media-server
+          path: |
+            server/dist/
+            server/package.json
+            server/package-lock.json
