@@ -6,7 +6,7 @@
 	"scripts": {
 		"start": "node .",
 		"build": "npx tsc",
-		"test": "npx mocha npx mocha --ui tdd --timeout 10000 --exit --recursive dist/tests"
+		"test": "npx mocha --ui tdd --timeout 10000 --exit --recursive dist/tests"
 	},
 	"private": true,
 	"dependencies": {
