@@ -37,12 +37,16 @@ jobs:
         working-directory: client
         run: npm clean-install
 
-      - name: Install client-side dependencies
+      - name: Install server-side dependencies
         working-directory: server
         run: npm clean-install
 
       - name: Build project
         run: npm run build
+
+      - name: Run server-side tests
+        working-directory: server
+        run: npm run test
 
       - name: Upload client-side build artifact
         uses: actions/upload-artifact@v3
