@@ -177,12 +177,12 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: ${{ env.ARTIFACT_NAME }}-client
-          path: client
+          path: artifacts/client
 
       - name: Upload to GitHub Pages
         uses: actions/upload-pages-artifact@v1
         with:
-          path: client
+          path: artifacts/client
 
       - name: Deploy to GitHub Pages
         id: deploy-to-pages
