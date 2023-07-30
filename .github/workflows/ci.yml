@@ -151,16 +151,16 @@ jobs:
           no-cache: true
           pull: true
 
-      - name: Cleanup old Docker images
-        if: ${{ github.event_name != 'pull_request' }}
-        uses: snok/container-retention-policy@v2
-        with:
-          image-names: ${{ env.DOCKER_IMAGE_NAME }}
-          cut-off: 0 seconds ago UTC
-          keep-at-least: 0
-          untagged-only: true
-          account-type: personal
-          token: ${{ secrets.PACKAGES_PERSONAL_ACCESS_TOKEN }}
+      #- name: Cleanup old Docker images
+      #  if: ${{ github.event_name != 'pull_request' }}
+      #  uses: snok/container-retention-policy@v2
+      #  with:
+      #    image-names: ${{ env.DOCKER_IMAGE_NAME }}
+      #    cut-off: 0 seconds ago UTC
+      #    keep-at-least: 0
+      #    untagged-only: true
+      #    account-type: personal
+      #    token: ${{ secrets.PACKAGES_PERSONAL_ACCESS_TOKEN }}
 
   deploy:
     name: Deploy
