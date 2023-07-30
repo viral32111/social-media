@@ -3,7 +3,9 @@
 	"version": "0.1.0",
 	"description": "My Twitter clone.",
 	"scripts": {
-		"build": "npm run build --prefix server && npm run build --prefix client"
+		"build": "npm run build --prefix client && npm run build --prefix server",
+		"lint": "npm run lint --prefix client && npm run lint --prefix server",
+		"test": "npm run test --prefix client && npm run test --prefix server"
 	},
 	"author": {
 		"name": "viral32111",
@@ -20,8 +22,7 @@
 	"homepage": "https://github.com/viral32111/social-media",
 	"keywords": [
 		"social-media",
-		"full-stack",
-		"web-app"
+		"full-stack-web-development"
 	],
 	"license": "AGPL-3.0-only",
 	"private": true

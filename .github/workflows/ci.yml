@@ -47,11 +47,15 @@ jobs:
         working-directory: server
         run: npm clean-install
 
+      - name: Lint code
+        run: npm run lint
+
       - name: Build project
         run: npm run build
 
-      - name: Run server-side tests
-        working-directory: server
+      - name: Run tests
+        env:
+          NODE_ENV: test
         run: npm run test
 
       - name: Upload client-side build artifact

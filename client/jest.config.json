@@ -1,8 +1,11 @@
 {
 	"testEnvironment": "jsdom",
 	"transform": {
-		"^.+\\.(t|j)sx?$": "swc-jest"
+		"^.+\\.(ts|js|tsx|jsx)$": "@swc/jest"
 	},
 	"testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
-	"moduleFileExtensions": [ "ts", "tsx", "js", "jsx", "json", "node" ]
+	"moduleFileExtensions": [ "ts", "tsx", "js", "jsx", "json", "node" ],
+	"globals": {
+		"NODE_ENV": "test"
+	}
 }

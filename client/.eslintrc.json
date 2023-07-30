@@ -42,6 +42,13 @@
 		]
 	},
 	"ignorePatterns": [
-		"dist"
+		"node_modules",
+		"dist",
+		"transforms",
+		"jest.config.json",
+		"vite.config.ts",
+		"tsconfig.json",
+		"tsconfig.node.json",
+		".swcrc"
 	]
 }
