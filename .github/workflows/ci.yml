@@ -27,6 +27,22 @@ jobs:
     runs-on: ubuntu-22.04
     permissions:
       contents: read
+    services:
+      mongodb:
+        image: mongo:6-jammy
+        env:
+          MONGO_INITDB_DATABASE: social-media
+          MONGO_INITDB_ROOT_USERNAME: mongoadmin
+          MONGO_INITDB_ROOT_PASSWORD: P4ssw0rd
+        ports:
+          - 27017:27017
+      neo4j:
+        image: neo4j:5-bullseye
+        env:
+          NEO4J_AUTH: none
+        ports:
+          - 7474:7474
+          - 7687:7687
     steps:
       - name: Clone repository
         uses: actions/checkout@v3
