@@ -39,5 +39,9 @@
 		"eslint": "^8.46.0",
 		"mocha": "^10.2.0",
 		"typescript": "^5.1.6"
+	},
+	"optionalDependencies": {
+		"bufferutil": "^4.0.7",
+		"utf-8-validate": "^6.0.3"
 	}
 }
