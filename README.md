@@ -27,6 +27,10 @@ The [MongoDB](https://www.mongodb.com) and [Neo4j](https://neo4j.com) databases 
 
 Check the [CI workflow runs](https://github.com/viral32111/social-media/actions/workflows/ci.yml) for the latest client-side and server-side build artifacts.
 
+## ✔️ Progress
+
+Check the [Kanban board](https://github.com/users/viral32111/projects/10), [issues](https://github.com/viral32111/social-media/issues?q=is%3Aissue) and [milestones](https://github.com/viral32111/social-media/milestones) for tracking progress.
+
 ## ⚖️ License
 
 Copyright (C) 2023 [viral32111](https://viral32111.com).
