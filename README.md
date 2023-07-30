@@ -13,11 +13,19 @@ This is a full-stack web application of a barebones social media platform, very 
 
 ## 📡 Technologies
 
-The client-side uses [React](https://react.dev), [Vite](https://vitejs.dev), [TailwindCSS](https://tailwindcss.com), [SASS](https://sass-lang.com) and [jQuery](https://jquery.com).
+The client-side uses [Vite](https://vitejs.dev) as the toolchain, [React](https://react.dev) for constructing the user interface, [TailwindCSS](https://tailwindcss.com) & [SASS](https://sass-lang.com) for styling, [jQuery](https://jquery.com) for scripts, and [Jest](https://jestjs.io) for automated testing.
 
-The server-side uses [Node.js](https://nodejs.org), [Express](https://expressjs.com), [MongoDB](https://www.mongodb.com) and [Neo4j](https://neo4j.com). Testing uses [Mocha](https://mochajs.org) and [Chai](https://www.chaijs.com).
+The server-side uses [Node.js](https://nodejs.org) as the runtime, [Express](https://expressjs.com) for API routes, [MongoDB](https://www.mongodb.com) for storing persistent data, [Neo4j](https://neo4j.com) for generating recommendations, and [Mocha](https://mochajs.org)/[Chai](https://www.chaijs.com) for automated testing.
 
-Both sides use [TypeScript](https://www.typescriptlang.org) and [ESLint](https://eslint.org).
+Both sides use [TypeScript](https://www.typescriptlang.org) as the programming language and [ESLint](https://eslint.org) to ensure code style.
+
+## 📥 Usage
+
+There is a pre-built [Docker image](https://github.com/viral32111/social-media/pkgs/container/social-media) for running the server-side API, and a [GitHub Pages](https://github.com/viral32111/social-media/deployments/activity_log?environment=github-pages) deployment for viewing the client-side user interface.
+
+The [MongoDB](https://www.mongodb.com) and [Neo4j](https://neo4j.com) databases are not bundled with the Docker image and must be setup independently.
+
+Check the [CI workflow runs](https://github.com/viral32111/social-media/actions/workflows/ci.yml) for the latest client-side and server-side build artifacts.
 
 ## ⚖️ License
 
