@@ -7,7 +7,7 @@ log4js.configure( {
 	appenders: { default: { type: "console" } },
 	categories: { default: {
 		appenders: [ "default" ],
-		level: process.env.NODE_ENV === "production" ? "info" : "trace" // Do not log debug messages in production
+		level: process.env.NODE_ENV === "test" ? "warn" : process.env.NODE_ENV === "production" ? "info" : "trace"
 	} }
 } )
 
@@ -66,7 +66,7 @@ try {
 }
 
 log.debug( "Initialising Express application..." )
-const expressApp = express()
+export const expressApp = express()
 
 expressApp.use( express.json( {
 	limit: 1024 * 1024 * 1, // 1 MiB
@@ -109,7 +109,7 @@ expressApp.use( apiBasePath, expressRouter )
 log.debug( "Serving API routes at '%s'.", apiBasePath )
 
 log.debug( "Starting Express application..." )
-const httpServer = expressApp.listen( EXPRESS_LISTEN_PORT, EXPRESS_LISTEN_ADDRESS, () => {
+export const httpServer = expressApp.listen( EXPRESS_LISTEN_PORT, EXPRESS_LISTEN_ADDRESS, () => {
 	log.info( "Express application listening on http://%s:%d.", EXPRESS_LISTEN_ADDRESS, EXPRESS_LISTEN_PORT )
 } )
 
