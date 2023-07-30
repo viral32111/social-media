@@ -21,16 +21,6 @@ process.on( "uncaughtException", ( error ) => {
 	process.exit( 1 )
 } )
 
-let packageMajorVersion = "0"
-try {
-	const pkg = JSON.parse( readFileSync( "../package.json", "utf-8" ) )
-	packageMajorVersion = pkg.version.split( "." )[ 0 ]
-	log.debug( "Package version is '%s' so major version will be '%d'.", pkg.version, packageMajorVersion )
-} catch ( error ) {
-	log.fatal( "Failed to read package file to set major version! (%s)", error ?? "Unknown" )
-	process.exit( 1 )
-}
-
 log.debug( "Loading environment variables file..." )
 const dotenvResult = dotenv()
 if ( dotenvResult.error || !dotenvResult.parsed ) {
@@ -58,6 +48,22 @@ if ( !EXPRESS_CLIENT_DIRECTORY ) {
 	process.exit( 1 )
 }
 log.debug( "Checked required environment variables." )
+
+const PACKAGE_FILE = process.env.PACKAGE_FILE ?? "package.json"
+if ( !PACKAGE_FILE ) {
+	log.fatal( "Environment variable 'PACKAGE_FILE' value '%s' is invalid!", PACKAGE_FILE )
+	process.exit( 1 )
+}
+log.debug( "Checked required environment variables." )
+
+let packageMajorVersion = "0"
+try {
+	const pkg = JSON.parse( readFileSync( PACKAGE_FILE, "utf-8" ) )
+	packageMajorVersion = pkg.version.split( "." )[ 0 ]
+	log.debug( "Package version is '%s' so major version will be '%d'.", pkg.version, packageMajorVersion )
+} catch ( error ) {
+	log.warn( "Failed to read package file '%s' to set major version! (%s)", PACKAGE_FILE, error ?? "Unknown" )
+}
 
 log.debug( "Initialising Express application..." )
 const expressApp = express()
