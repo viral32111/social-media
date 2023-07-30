@@ -32,5 +32,9 @@
 			"error",
 			"never"
 		]
-	}
+	},
+	"ignorePatterns": [
+		"node_modules",
+		"dist"
+	]
 }

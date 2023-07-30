@@ -6,6 +6,7 @@
 	"scripts": {
 		"start": "node .",
 		"build": "npx tsc",
+		"lint": "npx eslint .",
 		"test": "npx mocha --ui tdd --timeout 10000 --exit --recursive dist/tests"
 	},
 	"private": true,
