@@ -12,6 +12,7 @@
 			"outFiles": [
 				"${workspaceFolder}/server/dist/**/*.js"
 			],
+			"cwd": "${workspaceFolder}/server",
 			"preLaunchTask": "Build Server",
 			"console": "internalConsole",
 			"internalConsoleOptions": "openOnSessionStart"
