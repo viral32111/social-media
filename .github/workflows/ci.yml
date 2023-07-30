@@ -58,6 +58,10 @@ jobs:
           NODE_ENV: test
         run: npm run test
 
+      - name: Delete server-side tests
+        working-directory: server
+        run: rm --verbose --recursive --force dist/tests
+
       - name: Upload client-side build artifact
         uses: actions/upload-artifact@v3
         with:
