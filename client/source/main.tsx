@@ -1,11 +1,10 @@
 import React from "react"
 import ReactDOM from "react-dom/client"
+import $ from "jquery"
+
 import Counter from "./components/counter"
 
-const rootElement = document.getElementById( "root" )!
-const root = ReactDOM.createRoot( rootElement )
-
-root.render(
+ReactDOM.createRoot( $( "#root" )[ 0 ]! ).render(
 	<React.StrictMode>
 		<Counter />
 	</React.StrictMode>
