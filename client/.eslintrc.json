@@ -42,8 +42,9 @@
 		]
 	},
 	"ignorePatterns": [
-		"node_modules",
-		"dist",
+		"node_modules/",
+		"dist/",
+		"jest/",
 		"*.json",
 		"*.config.js",
 		"*.config.ts",
