@@ -119,7 +119,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
 
       - name: Login to GitHub Container Registry
-        if: ${{ github.event_name != 'pull_request' }}
+        if: ${{ github.event_name != 'pull_request' && !startsWith( github.ref_name, 'dependabot/' ) }}
         uses: docker/login-action@v2
         with:
           registry: ${{ env.DOCKER_REGISTRY_DOMAIN }}
@@ -157,7 +157,7 @@ jobs:
       - name: Build & push Docker image
         uses: docker/build-push-action@v4
         with:
-          push: ${{ github.event_name != 'pull_request' }}
+          push: ${{ github.event_name != 'pull_request' && !startsWith( github.ref_name, 'dependabot/' ) }}
           file: Dockerfile
           context: artifacts
           tags: ${{ steps.metadata.outputs.tags }}
@@ -168,7 +168,7 @@ jobs:
           pull: true
 
       - name: Delete old Docker images
-        if: ${{ github.event_name != 'pull_request' }}
+        if: ${{ github.event_name != 'pull_request' && !startsWith( github.ref_name, 'dependabot/' ) }}
         uses: snok/container-retention-policy@v2
         with:
           image-names: ${{ env.DOCKER_IMAGE_NAME }}
