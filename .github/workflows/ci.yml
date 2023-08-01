@@ -182,6 +182,7 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-22.04
+    if: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
     needs: build
     permissions:
       contents: read
