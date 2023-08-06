@@ -2,6 +2,7 @@ import express from "express"
 import log4js from "log4js"
 import { config as dotenv } from "dotenv"
 import { readFileSync, existsSync } from "fs"
+import { MongoClient } from "mongodb"
 
 log4js.configure( {
 	appenders: { default: { type: "console" } },
@@ -47,11 +48,46 @@ if ( !EXPRESS_CLIENT_DIRECTORY ) {
 	log.fatal( "Environment variable 'EXPRESS_CLIENT_DIRECTORY' value '%s' is invalid!", EXPRESS_CLIENT_DIRECTORY )
 	process.exit( 1 )
 }
-log.debug( "Checked required environment variables." )
 
 const PACKAGE_FILE = process.env.PACKAGE_FILE ?? "package.json"
 if ( !PACKAGE_FILE ) {
 	log.fatal( "Environment variable 'PACKAGE_FILE' value '%s' is invalid!", PACKAGE_FILE )
+	process.exit( 1 )
+}
+
+const MONGODB_SCHEME = process.env.MONGODB_SCHEME ?? "mongodb"
+if ( !MONGODB_SCHEME ) {
+	log.fatal( "Environment variable 'MONGODB_SCHEME' value '%s' is invalid!", MONGODB_SCHEME )
+	process.exit( 1 )
+}
+
+const MONGODB_USER_NAME = process.env.MONGODB_USER_NAME
+if ( !MONGODB_USER_NAME ) {
+	log.fatal( "Environment variable 'MONGODB_USER_NAME' value '%s' is invalid!", MONGODB_USER_NAME )
+	process.exit( 1 )
+}
+
+const MONGODB_USER_PASSWORD = process.env.MONGODB_USER_PASSWORD
+if ( !MONGODB_USER_PASSWORD ) {
+	log.fatal( "Environment variable 'MONGODB_USER_PASSWORD' value '%s' is invalid!", MONGODB_USER_PASSWORD )
+	process.exit( 1 )
+}
+
+const MONGODB_SERVER_ADDRESS = process.env.MONGODB_SERVER_ADDRESS ?? "127.0.0.1"
+if ( !MONGODB_SERVER_ADDRESS ) {
+	log.fatal( "Environment variable 'MONGODB_SERVER_ADDRESS' value '%s' is invalid!", MONGODB_SERVER_ADDRESS )
+	process.exit( 1 )
+}
+
+const MONGODB_SERVER_PORT = parseInt( process.env.MONGODB_SERVER_PORT ?? "27017" )
+if ( !MONGODB_SERVER_PORT || isNaN( MONGODB_SERVER_PORT ) || MONGODB_SERVER_PORT < 0 || MONGODB_SERVER_PORT > 65535 ) {
+	log.fatal( "Environment variable 'MONGODB_SERVER_PORT' value '%s' is not a valid port number! (must be between 0 and 65535)", MONGODB_SERVER_PORT )
+	process.exit( 1 )
+}
+
+const MONGODB_DATABASE = process.env.MONGODB_DATABASE ?? "social-media"
+if ( !MONGODB_DATABASE ) {
+	log.fatal( "Environment variable 'MONGODB_DATABASE' value '%s' is invalid!", MONGODB_DATABASE )
 	process.exit( 1 )
 }
 log.debug( "Checked required environment variables." )
@@ -108,17 +144,31 @@ import( "./routes/hello.js" )
 expressApp.use( apiBasePath, expressRouter )
 log.debug( "Serving API routes at '%s'.", apiBasePath )
 
+log.debug( "Setting up Mongo client..." )
+export const mongoClient = new MongoClient( `${ MONGODB_SCHEME }://${ MONGODB_USER_NAME }:${ MONGODB_USER_PASSWORD }@${ MONGODB_SERVER_ADDRESS }:${ MONGODB_SERVER_PORT }/${ MONGODB_DATABASE }?retryWrites=true&directConnection=true` )
+export const mongoDatabase = mongoClient.db( MONGODB_DATABASE )
+log.debug( "Setup Mongo client." )
+
 log.debug( "Starting Express application..." )
-export const httpServer = expressApp.listen( EXPRESS_LISTEN_PORT, EXPRESS_LISTEN_ADDRESS, () => {
+export const httpServer = expressApp.listen( EXPRESS_LISTEN_PORT, EXPRESS_LISTEN_ADDRESS, async () => {
 	log.info( "Express application listening on http://%s:%d.", EXPRESS_LISTEN_ADDRESS, EXPRESS_LISTEN_PORT )
+
+	log.debug( "Connecting Mongo client to database..." )
+	await mongoClient.connect()
+	await mongoDatabase.command( { ping: 1 } )
+	log.info( "Connected to MongoDB." )
 } )
 
 const safeStop = () => {
 	log.info( "Stopping..." )
 
 	log.debug( "Stopping Express application..." )
-	httpServer.close( () => {
+	httpServer.close( async () => {
 		log.info( "Stopped Express application." )
+
+		log.debug( "Closing Mongo client..." )
+		await mongoClient.close()
+		log.info( "Disconnected from MongoDB." )
 	} )
 }
 
