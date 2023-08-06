@@ -72,6 +72,9 @@ jobs:
       - name: Run tests
         env:
           NODE_ENV: test
+          MONGODB_DATABASE: social-media
+          MONGODB_USER_NAME: mongoadmin
+          MONGODB_USER_PASSWORD: P4ssw0rd
         run: npm run test
 
       - name: Delete server-side tests
