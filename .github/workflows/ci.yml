@@ -142,7 +142,7 @@ jobs:
     runs-on: ubuntu-22.04
     needs: build
     concurrency:
-      group: docker
+      group: ${{ github.workflow }}-${{ github.job }}-${{ github.ref }}
       cancel-in-progress: false
     permissions:
       contents: read
