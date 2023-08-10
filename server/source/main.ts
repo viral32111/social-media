@@ -129,13 +129,12 @@ if ( !NEO4J_DATABASE ) {
 }
 log.debug( "Checked required environment variables." )
 
-let packageMajorVersion = "0"
+let version = "0.0.0"
 try {
-	const pkg = JSON.parse( readFileSync( PACKAGE_FILE, "utf-8" ) )
-	packageMajorVersion = pkg.version.split( "." )[ 0 ]
-	log.debug( "Package version is '%s' so major version will be '%d'.", pkg.version, packageMajorVersion )
+	version = JSON.parse( readFileSync( PACKAGE_FILE, "utf-8" ) )
+	log.debug( "Package version is '%s'.", version )
 } catch ( error ) {
-	log.warn( "Failed to read package file '%s' to set major version! (%s)", PACKAGE_FILE, error ?? "Unknown" )
+	log.warn( "Failed to read package file '%s' to get version! (%s)", PACKAGE_FILE, error ?? "Unknown" )
 }
 
 log.debug( "Initialising Express application..." )
@@ -158,7 +157,7 @@ expressApp.use( ( _, response, next ) => {
 	next()
 } )
 
-const apiBasePath = `/api/v${ packageMajorVersion }`
+const apiBasePath = `/api/v${ version.split( "." )[ 0 ] }`
 expressApp.use( ( request, response, next ) => {
 	const match = request.path.match( /^\/api\/(?!v\d)(.*)$/i )
 	if ( match ) return response.redirect( `${ apiBasePath }/${ match[ 1 ] }` )
@@ -181,13 +180,25 @@ import( "./routes/hello.js" )
 expressApp.use( apiBasePath, expressRouter )
 log.debug( "Serving API routes at '%s'.", apiBasePath )
 
-log.debug( "Setting up Mongo client..." )
-export const mongoClient = new MongoClient( `${ MONGODB_SCHEME }://${ MONGODB_USER_NAME }:${ MONGODB_USER_PASSWORD }@${ MONGODB_SERVER_ADDRESS }:${ MONGODB_SERVER_PORT }/${ MONGODB_DATABASE }?retryWrites=true&directConnection=true` )
+const mongoUrl = `${ MONGODB_SCHEME }://${ MONGODB_SERVER_ADDRESS }:${ MONGODB_SERVER_PORT }/${ MONGODB_DATABASE }`
+log.debug( "Setting up Mongo client for '%s'...", mongoUrl )
+export const mongoClient = new MongoClient( mongoUrl, {
+	appName: `social-media/${ version }`,
+	tls: false,
+	directConnection: true,
+	retryWrites: true,
+	retryReads: true,
+	auth: {
+		username: MONGODB_USER_NAME,
+		password: MONGODB_USER_PASSWORD
+	},
+} )
 export const mongoDatabase = mongoClient.db( MONGODB_DATABASE )
 log.debug( "Setup Mongo client." )
 
-log.debug( "Setting up Neo4j driver..." )
-export const neo4jDriver = neo4j.driver( `${ NEO4J_SCHEME }://${ NEO4J_SERVER_ADDRESS }:${ NEO4J_SERVER_PORT }`, neo4j.auth.basic( NEO4J_USER_NAME, NEO4J_USER_PASSWORD ) )
+const neo4jUrl = `${ NEO4J_SCHEME }://${ NEO4J_SERVER_ADDRESS }:${ NEO4J_SERVER_PORT }`
+log.debug( "Setting up Neo4j driver for '%s'...", neo4jUrl )
+export const neo4jDriver = neo4j.driver( neo4jUrl, neo4j.auth.basic( NEO4J_USER_NAME, NEO4J_USER_PASSWORD ) )
 export const neo4jSession = neo4jDriver.session( {
 	database: NEO4J_DATABASE,
 	defaultAccessMode: neo4j.session.WRITE

@@ -31,9 +31,9 @@ jobs:
       mongodb:
         image: mongo:6-jammy
         env:
-          MONGO_INITDB_DATABASE: social-media
           MONGO_INITDB_ROOT_USERNAME: mongodb
           MONGO_INITDB_ROOT_PASSWORD: P4ssw0rd
+          MONGO_INITDB_DATABASE: social-media
         ports:
           - 27017:27017
       neo4j:
@@ -73,23 +73,26 @@ jobs:
       - name: Run tests
         env:
           NODE_ENV: test
-          MONGODB_DATABASE: social-media
+          EXPRESS_LISTEN_ADDRESS: 127.0.0.1
           MONGODB_USER_NAME: mongodb
           MONGODB_USER_PASSWORD: P4ssw0rd
-          NEO4J_DATABASE: social-media
+          MONGODB_DATABASE: social-media
           NEO4J_USER_NAME: neo4j
           NEO4J_USER_PASSWORD: P4ssw0rd
+          NEO4J_DATABASE: social-media
         run: npm run test
 
       - name: Launch server
         env:
           NODE_ENV: development
-          MONGODB_DATABASE: social-media
+          EXPRESS_LISTEN_ADDRESS: 127.0.0.1
+          EXPRESS_CLIENT_DIRECTORY: ../client/dist
           MONGODB_USER_NAME: mongodb
           MONGODB_USER_PASSWORD: P4ssw0rd
-          NEO4J_DATABASE: social-media
+          MONGODB_DATABASE: social-media
           NEO4J_USER_NAME: neo4j
           NEO4J_USER_PASSWORD: P4ssw0rd
+          NEO4J_DATABASE: social-media
         working-directory: server
         run: node . --exit
 
