@@ -3,6 +3,7 @@ import log4js from "log4js"
 import { config as dotenv } from "dotenv"
 import { readFileSync, existsSync } from "fs"
 import { MongoClient } from "mongodb"
+import neo4j from "neo4j-driver"
 
 log4js.configure( {
 	appenders: { default: { type: "console" } },
@@ -90,6 +91,36 @@ if ( !MONGODB_DATABASE ) {
 	log.fatal( "Environment variable 'MONGODB_DATABASE' value '%s' is invalid!", MONGODB_DATABASE )
 	process.exit( 1 )
 }
+
+const NEO4J_SERVER_ADDRESS = process.env.NEO4J_SERVER_ADDRESS ?? "127.0.0.1"
+if ( !NEO4J_SERVER_ADDRESS ) {
+	log.fatal( "Environment variable 'NEO4J_SERVER_ADDRESS' value '%s' is invalid!", NEO4J_SERVER_ADDRESS )
+	process.exit( 1 )
+}
+
+const NEO4J_SERVER_PORT = process.env.NEO4J_SERVER_PORT ?? "7474"
+if ( !NEO4J_SERVER_PORT ) {
+	log.fatal( "Environment variable 'NEO4J_SERVER_PORT' value '%s' is invalid!", NEO4J_SERVER_PORT )
+	process.exit( 1 )
+}
+
+const NEO4J_USER_NAME = process.env.NEO4J_USER_NAME
+if ( !NEO4J_USER_NAME ) {
+	log.fatal( "Environment variable 'NEO4J_USER_NAME' value '%s' is invalid!", NEO4J_USER_NAME )
+	process.exit( 1 )
+}
+
+const NEO4J_USER_PASSWORD = process.env.NEO4J_USER_PASSWORD
+if ( !NEO4J_USER_PASSWORD ) {
+	log.fatal( "Environment variable 'NEO4J_USER_PASSWORD' value '%s' is invalid!", NEO4J_USER_PASSWORD )
+	process.exit( 1 )
+}
+
+const NEO4J_DATABASE = process.env.NEO4J_DATABASE ?? "social-media"
+if ( !NEO4J_DATABASE ) {
+	log.fatal( "Environment variable 'NEO4J_DATABASE' value '%s' is invalid!", NEO4J_DATABASE )
+	process.exit( 1 )
+}
 log.debug( "Checked required environment variables." )
 
 let packageMajorVersion = "0"
@@ -149,6 +180,14 @@ export const mongoClient = new MongoClient( `${ MONGODB_SCHEME }://${ MONGODB_US
 export const mongoDatabase = mongoClient.db( MONGODB_DATABASE )
 log.debug( "Setup Mongo client." )
 
+log.debug( "Setting up Neo4j driver..." )
+export const neo4jDriver = neo4j.driver( `neo4j://${ NEO4J_SERVER_ADDRESS }:${ NEO4J_SERVER_PORT }`, neo4j.auth.basic( NEO4J_USER_NAME, NEO4J_USER_PASSWORD ) )
+export const neo4jSession = neo4jDriver.session( {
+	database: NEO4J_DATABASE,
+	defaultAccessMode: neo4j.session.WRITE
+} )
+log.debug( "Setup Neo4j driver." )
+
 log.debug( "Starting Express application..." )
 export const httpServer = expressApp.listen( EXPRESS_LISTEN_PORT, EXPRESS_LISTEN_ADDRESS, async () => {
 	log.info( "Express application listening on http://%s:%d.", EXPRESS_LISTEN_ADDRESS, EXPRESS_LISTEN_PORT )
@@ -169,6 +208,11 @@ const safeStop = () => {
 		log.debug( "Closing Mongo client..." )
 		await mongoClient.close()
 		log.info( "Disconnected from MongoDB." )
+
+		log.debug( "Closing Neo4j driver..." )
+		await neo4jSession.close()
+		await neo4jDriver.close()
+		log.info( "Disconnected from Neo4j." )
 	} )
 }
 
