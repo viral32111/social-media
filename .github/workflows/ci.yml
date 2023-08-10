@@ -210,6 +210,7 @@ jobs:
 
       - name: Delete old Docker images
         if: ${{ github.event_name != 'pull_request' && !startsWith( github.ref_name, 'dependabot/' ) }}
+        continue-on-error: true
         uses: snok/container-retention-policy@v2
         with:
           image-names: ${{ env.DOCKER_IMAGE_NAME }}
