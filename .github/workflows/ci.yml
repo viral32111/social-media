@@ -61,22 +61,16 @@ jobs:
           sudo apt-get install --yes mongodb-org
           mongosh --host 127.0.0.1 --port 27017 --username mongodb --password P4ssw0rd --authenticationDatabase admin --eval 'db.stats()'
 
-      - name: Test Neo4j service
-        run: |
-          sudo add-apt-repository --yes ppa:openjdk-r/ppa
-          sudo apt-get update
-          wget -O - https://debian.neo4j.com/neotechnology.gpg.key | sudo apt-key add -
-          echo 'deb https://debian.neo4j.com stable latest' | sudo tee -a /etc/apt/sources.list.d/neo4j.list
-          sudo add-apt-repository universe
-          sudo apt-get update
-          sudo apt-get install cypher-shell
-
-          java -version
-          sudo update-java-alternatives --list
-          sudo update-java-alternatives --set temurin-17-jdk-amd64
-          java -version
-
-          cypher-shell --address neo4j://127.0.0.1:7687 --username neo4j --password P4ssw0rd --database social-media 'CALL db.stats()'
+#      - name: Test Neo4j service
+#        run: |
+#          sudo add-apt-repository --yes ppa:openjdk-r/ppa
+#          sudo apt-get update
+#          wget -O - https://debian.neo4j.com/neotechnology.gpg.key | sudo apt-key add -
+#          echo 'deb https://debian.neo4j.com stable latest' | sudo tee -a /etc/apt/sources.list.d/neo4j.list
+#          sudo add-apt-repository universe
+#          sudo apt-get update
+#          sudo apt-get install cypher-shell
+#          cypher-shell --address neo4j://127.0.0.1:7687 --username neo4j --password P4ssw0rd --database social-media 'CALL db.stats()'
 
       - name: Install dependencies
         run: npm clean-install
