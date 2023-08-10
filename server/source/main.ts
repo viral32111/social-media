@@ -86,13 +86,24 @@ if ( !MONGODB_USER_PASSWORD ) {
 	process.exit( 1 )
 }
 
+const MONGODB_AUTH_DATABASE = process.env.MONGODB_AUTH_DATABASE ?? "admin"
+if ( !MONGODB_AUTH_DATABASE ) {
+	log.fatal( "Environment variable 'MONGODB_AUTH_DATABASE' value '%s' is invalid!", MONGODB_AUTH_DATABASE )
+	process.exit( 1 )
+}
+
 const MONGODB_DATABASE = process.env.MONGODB_DATABASE ?? "social-media"
 if ( !MONGODB_DATABASE ) {
 	log.fatal( "Environment variable 'MONGODB_DATABASE' value '%s' is invalid!", MONGODB_DATABASE )
 	process.exit( 1 )
 }
 
-const NEO4J_SCHEME = process.env.NEO4J_SCHEME ?? "neo4j"
+const MONGODB_DIRECT_CONNECTION = process.env.MONGODB_DIRECT_CONNECTION === "true"
+if ( process.env.MONGODB_DIRECT_CONNECTION !== "true" && process.env.MONGODB_DIRECT_CONNECTION !== "false" ) {
+	log.warn( "Environment variable 'MONGODB_DIRECT_CONNECTION' value '%s' must be either 'true' or 'false'. Assuming false...", MONGODB_DIRECT_CONNECTION )
+}
+
+const NEO4J_SCHEME = process.env.NEO4J_SCHEME ?? "bolt"
 if ( !NEO4J_SCHEME ) {
 	log.fatal( "Environment variable 'NEO4J_SCHEME' value '%s' is invalid!", NEO4J_SCHEME )
 	process.exit( 1 )
@@ -104,7 +115,7 @@ if ( !NEO4J_SERVER_ADDRESS ) {
 	process.exit( 1 )
 }
 
-const NEO4J_SERVER_PORT = process.env.NEO4J_SERVER_PORT ?? "7474"
+const NEO4J_SERVER_PORT = process.env.NEO4J_SERVER_PORT ?? "7687"
 if ( !NEO4J_SERVER_PORT ) {
 	log.fatal( "Environment variable 'NEO4J_SERVER_PORT' value '%s' is invalid!", NEO4J_SERVER_PORT )
 	process.exit( 1 )
@@ -184,15 +195,15 @@ const mongoUrl = `${ MONGODB_SCHEME }://${ MONGODB_SERVER_ADDRESS }:${ MONGODB_S
 log.debug( "Setting up Mongo client for '%s'...", mongoUrl )
 export const mongoClient = new MongoClient( mongoUrl, {
 	appName: `social-media/${ version }`,
-	tls: false,
-	directConnection: true,
-	retryWrites: true,
-	retryReads: true,
-	authSource: "admin",
+	directConnection: MONGODB_DIRECT_CONNECTION,
+	authSource: MONGODB_AUTH_DATABASE,
 	auth: {
 		username: MONGODB_USER_NAME,
 		password: MONGODB_USER_PASSWORD
 	},
+	retryWrites: true,
+	retryReads: true,
+	tls: false
 } )
 export const mongoDatabase = mongoClient.db( MONGODB_DATABASE )
 log.debug( "Setup Mongo client." )
