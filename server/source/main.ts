@@ -129,9 +129,9 @@ if ( !NEO4J_DATABASE ) {
 }
 log.debug( "Checked required environment variables." )
 
-let version = "0.0.0"
+let version = "0.1.0"
 try {
-	version = JSON.parse( readFileSync( PACKAGE_FILE, "utf-8" ) )
+	version = JSON.parse( readFileSync( PACKAGE_FILE, "utf-8" ) )[ "version" ] ?? version
 	log.debug( "Package version is '%s'.", version )
 } catch ( error ) {
 	log.warn( "Failed to read package file '%s' to get version! (%s)", PACKAGE_FILE, error ?? "Unknown" )
