@@ -32,14 +32,15 @@ jobs:
         image: mongo:6-jammy
         env:
           MONGO_INITDB_DATABASE: social-media
-          MONGO_INITDB_ROOT_USERNAME: mongoadmin
+          MONGO_INITDB_ROOT_USERNAME: mongodb
           MONGO_INITDB_ROOT_PASSWORD: P4ssw0rd
         ports:
           - 27017:27017
       neo4j:
         image: neo4j:5-bullseye
         env:
-          NEO4J_AUTH: none
+          NEO4J_AUTH: neo4j/P4ssw0rd
+          NEO4J_initial_dbms_default__database: social-media
         ports:
           - 7474:7474
           - 7687:7687
@@ -75,6 +76,9 @@ jobs:
           MONGODB_DATABASE: social-media
           MONGODB_USER_NAME: mongoadmin
           MONGODB_USER_PASSWORD: P4ssw0rd
+          NEO4J_DATABASE: social-media
+          NEO4J_USER_NAME: neo4j
+          NEO4J_USER_PASSWORD: P4ssw0rd
         run: npm run test
 
       - name: Delete server-side tests
