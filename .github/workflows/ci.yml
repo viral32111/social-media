@@ -73,7 +73,7 @@ jobs:
 
           java -version
           sudo update-java-alternatives --list
-          sudo update-java-alternatives --jre --set java-1.17.0-openjdk-amd64
+          sudo update-java-alternatives --jre --set temurin-17-jdk-amd64
           java -version
 
           cypher-shell --address neo4j://127.0.0.1:7687 --username neo4j --password P4ssw0rd --database social-media 'CALL db.stats()'
