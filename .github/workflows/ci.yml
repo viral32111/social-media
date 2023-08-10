@@ -63,6 +63,9 @@ jobs:
 
       - name: Test Neo4j service
         run: |
+          sudo add-apt-repository --yes ppa:openjdk-r/ppa
+          sudo apt-get update
+          sudo update-java-alternatives --jre --set java-1.17.0-openjdk-amd64
           wget -O - https://debian.neo4j.com/neotechnology.gpg.key | sudo apt-key add -
           echo 'deb https://debian.neo4j.com stable latest' | sudo tee -a /etc/apt/sources.list.d/neo4j.list
           sudo add-apt-repository universe
