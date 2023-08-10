@@ -208,6 +208,11 @@ export const httpServer = expressApp.listen( EXPRESS_LISTEN_PORT, EXPRESS_LISTEN
 	log.debug( "Testing Neo4j connection..." )
 	const neo4jServerInformation = await neo4jDriver.getServerInfo()
 	log.info( "Connected to Neo4j server v%s.", neo4jServerInformation.agent?.split( "/" )[ 1 ] ?? "0" )
+
+	if ( process.argv.includes( "--exit" ) ) {
+		log.info( "Exit flag passed, the application will stop!" )
+		return safeStop()
+	}
 } )
 
 const safeStop = () => {

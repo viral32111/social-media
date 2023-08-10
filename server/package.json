@@ -4,7 +4,7 @@
 	"main": "dist/main.js",
 	"type": "module",
 	"scripts": {
-		"start": "npx run build && node .",
+		"start": "npm run build && node .",
 		"build": "npx tsc",
 		"lint": "npx eslint .",
 		"test": "npm run clean && npm run build && NODE_ENV=test npx mocha --ui tdd --timeout 10000 --exit --recursive dist/tests",

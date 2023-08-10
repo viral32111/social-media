@@ -16,6 +16,25 @@
 			"preLaunchTask": "Build Server",
 			"console": "internalConsole",
 			"internalConsoleOptions": "openOnSessionStart"
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "Launch Server & Exit",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"program": "${workspaceFolder}/server/dist/main.js",
+			"args": [
+				"--exit"
+			],
+			"outFiles": [
+				"${workspaceFolder}/server/dist/**/*.js"
+			],
+			"cwd": "${workspaceFolder}/server",
+			"preLaunchTask": "Build Server",
+			"console": "internalConsole",
+			"internalConsoleOptions": "openOnSessionStart"
 		}
 	]
 }

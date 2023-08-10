@@ -81,6 +81,18 @@ jobs:
           NEO4J_USER_PASSWORD: P4ssw0rd
         run: npm run test
 
+      - name: Launch server
+        env:
+          NODE_ENV: development
+          MONGODB_DATABASE: social-media
+          MONGODB_USER_NAME: mongoadmin
+          MONGODB_USER_PASSWORD: P4ssw0rd
+          NEO4J_DATABASE: social-media
+          NEO4J_USER_NAME: neo4j
+          NEO4J_USER_PASSWORD: P4ssw0rd
+        working-directory: server
+        run: node . --exit
+
       - name: Delete server-side tests
         working-directory: server
         run: rm --verbose --recursive --force dist/tests
