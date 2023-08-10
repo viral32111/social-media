@@ -63,11 +63,10 @@ jobs:
 
 #      - name: Test Neo4j service
 #        run: |
+#          sudo add-apt-repository universe
 #          sudo add-apt-repository --yes ppa:openjdk-r/ppa
-#          sudo apt-get update
 #          wget -O - https://debian.neo4j.com/neotechnology.gpg.key | sudo apt-key add -
 #          echo 'deb https://debian.neo4j.com stable latest' | sudo tee -a /etc/apt/sources.list.d/neo4j.list
-#          sudo add-apt-repository universe
 #          sudo apt-get update
 #          sudo apt-get install cypher-shell
 #          cypher-shell --address neo4j://127.0.0.1:7687 --username neo4j --password P4ssw0rd --database social-media 'CALL db.stats()'
@@ -93,11 +92,10 @@ jobs:
         env:
           NODE_ENV: test
           EXPRESS_LISTEN_ADDRESS: 127.0.0.1
-          MONGODB_SERVER_ADDRESS: 127.0.0.1
+          EXPRESS_CLIENT_DIRECTORY: ../client/dist
           MONGODB_USER_NAME: mongodb
           MONGODB_USER_PASSWORD: P4ssw0rd
           MONGODB_DATABASE: social-media
-          NEO4J_SERVER_ADDRESS: 127.0.0.1
           NEO4J_USER_NAME: neo4j
           NEO4J_USER_PASSWORD: P4ssw0rd
           NEO4J_DATABASE: social-media
@@ -108,11 +106,9 @@ jobs:
           NODE_ENV: development
           EXPRESS_LISTEN_ADDRESS: 127.0.0.1
           EXPRESS_CLIENT_DIRECTORY: ../client/dist
-          MONGODB_SERVER_ADDRESS: 127.0.0.1
           MONGODB_USER_NAME: mongodb
           MONGODB_USER_PASSWORD: P4ssw0rd
           MONGODB_DATABASE: social-media
-          NEO4J_SERVER_ADDRESS: 127.0.0.1
           NEO4J_USER_NAME: neo4j
           NEO4J_USER_PASSWORD: P4ssw0rd
           NEO4J_DATABASE: social-media

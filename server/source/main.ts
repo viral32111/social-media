@@ -99,8 +99,8 @@ if ( !MONGODB_DATABASE ) {
 }
 
 const MONGODB_DIRECT_CONNECTION = process.env.MONGODB_DIRECT_CONNECTION === "true"
-if ( process.env.MONGODB_DIRECT_CONNECTION !== "true" && process.env.MONGODB_DIRECT_CONNECTION !== "false" ) {
-	log.warn( "Environment variable 'MONGODB_DIRECT_CONNECTION' value '%s' must be either 'true' or 'false'. Assuming false...", MONGODB_DIRECT_CONNECTION )
+if ( process.env.MONGODB_DIRECT_CONNECTION !== "" && process.env.MONGODB_DIRECT_CONNECTION !== "true" && process.env.MONGODB_DIRECT_CONNECTION !== "false" ) {
+	log.warn( "Environment variable 'MONGODB_DIRECT_CONNECTION' value '%s' must be 'true' or 'false'.", MONGODB_DIRECT_CONNECTION )
 }
 
 const NEO4J_SCHEME = process.env.NEO4J_SCHEME ?? "bolt"
