@@ -188,6 +188,7 @@ export const mongoClient = new MongoClient( mongoUrl, {
 	directConnection: true,
 	retryWrites: true,
 	retryReads: true,
+	authSource: "admin",
 	auth: {
 		username: MONGODB_USER_NAME,
 		password: MONGODB_USER_PASSWORD
