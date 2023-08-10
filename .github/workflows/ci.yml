@@ -53,6 +53,9 @@ jobs:
         with:
           node-version: 20
 
+      - name: Test services
+        run: mongo --host 127.0.0.1 --port 27017 --username mongodb --password P4ssw0rd --authenticationDatabase admin --eval 'db.stats()'
+
       - name: Install dependencies
         run: npm clean-install
 
