@@ -215,7 +215,6 @@ export const neo4jSession = neo4jDriver.session( {
 	database: NEO4J_DATABASE,
 	defaultAccessMode: neo4j.session.WRITE
 } )
-
 log.debug( "Setup Neo4j driver." )
 
 log.debug( "Starting Express application..." )
