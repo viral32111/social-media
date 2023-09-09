@@ -7,6 +7,10 @@
 		"lint": "npm run lint --prefix client && npm run lint --prefix server",
 		"test": "npm run test --prefix client && npm run test --prefix server"
 	},
+	"workspaces": [
+		"client",
+		"server"
+	],
 	"author": {
 		"name": "viral32111",
 		"email": "contact@viral32111.com",
@@ -25,5 +29,6 @@
 		"full-stack-web-development"
 	],
 	"license": "AGPL-3.0-only",
-	"private": true
+	"private": true,
+	"packageManager": "yarn@3.6.3"
 }
