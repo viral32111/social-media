@@ -111,20 +111,18 @@ jobs:
         working-directory: server
         run: rm --verbose --recursive --force dist/tests
 
-      - name: Upload client-side build artifact
+      - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ env.ARTIFACT_NAME }}-client
+          name: ${{ env.ARTIFACT_NAME }}
           path: |
+            package.json
+            package-lock.json
+
             client/dist/
             client/package.json
             client/package-lock.json
 
-      - name: Upload server-side build artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ env.ARTIFACT_NAME }}-server
-          path: |
             server/dist/
             server/package.json
             server/package-lock.json
@@ -159,17 +157,11 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Download client-side build artifact
+      - name: Download build artifact
         uses: actions/download-artifact@v3
         with:
-          name: ${{ env.ARTIFACT_NAME }}-client
-          path: artifacts/client
-
-      - name: Download server-side build artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: ${{ env.ARTIFACT_NAME }}-server
-          path: artifacts/server
+          name: ${{ env.ARTIFACT_NAME }}
+          path: artifact
 
       - name: Create metadata for Docker image
         id: metadata
@@ -192,7 +184,7 @@ jobs:
         with:
           push: ${{ github.event_name != 'pull_request' && !startsWith( github.ref_name, 'dependabot/' ) }}
           file: Dockerfile
-          context: artifacts
+          context: artifact
           tags: ${{ steps.metadata.outputs.tags }}
           labels: ${{ steps.metadata.outputs.labels }}
           platforms: linux/amd64,linux/arm64
@@ -236,16 +228,16 @@ jobs:
         id: setup-pages
         uses: actions/configure-pages@v3
 
-      - name: Download client-side build artifact
+      - name: Download build artifact
         uses: actions/download-artifact@v3
         with:
-          name: ${{ env.ARTIFACT_NAME }}-client
-          path: artifacts/client
+          name: ${{ env.ARTIFACT_NAME }}
+          path: artifact
 
       - name: Upload to GitHub Pages
         uses: actions/upload-pages-artifact@v2
         with:
-          path: artifacts/client/dist
+          path: artifact/client/dist
 
       - name: Deploy to GitHub Pages
         id: deploy-to-pages

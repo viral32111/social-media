@@ -6,8 +6,7 @@ COPY --chown=0:0 . /app
 
 WORKDIR /app
 
-RUN cd /app/client && npm clean-install --omit=dev
-RUN cd /app/server && npm clean-install --omit=dev
+RUN npm clean-install --omit=dev
 
 ENV NODE_ENV=production \
 	EXPRESS_LISTEN_ADDRESS=0.0.0.0 \
