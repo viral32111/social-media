@@ -22,14 +22,13 @@ jobs:
       - name: Clone repository
         uses: actions/checkout@v3
 
-      - name: Fetch Dependabot Metadata
+      - name: Fetch Dependabot metadata
         id: metadata
         uses: dependabot/fetch-metadata@v1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Auto-Merge Pull Request
-        run: gh pr merge --auto --rebase "$PR_URL"
+      - name: Enable auto-merge for pull request
         env:
-          PR_URL: ${{ github.event.pull_request.html_url }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh pr merge --auto --rebase ${{ github.event.pull_request.html_url }}
