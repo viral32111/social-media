@@ -72,7 +72,7 @@ jobs:
 #          cypher-shell --address neo4j://127.0.0.1:7687 --username neo4j --password P4ssw0rd --database social-media 'CALL db.stats()'
 
       - name: Install dependencies
-        run: npm clean-install
+        run: npm install
 
       - name: Lint code
         run: npm run lint
