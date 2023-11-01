@@ -20,7 +20,7 @@
 		"mongodb": "^6.0.0",
 		"multer": "^1.4.5-lts.1",
 		"neo4j-driver": "^5.11.0",
-		"ws": "^8.13.0"
+		"ws": "^8.14.2"
 	},
 	"devDependencies": {
 		"@types/chai": "^4.3.5",
@@ -30,7 +30,7 @@
 		"@types/mocha": "^10.0.1",
 		"@types/multer": "^1.4.7",
 		"@types/node": "^20.4.9",
-		"@types/ws": "^8.5.5",
+		"@types/ws": "^8.5.8",
 		"@typescript-eslint/eslint-plugin": "^6.3.0",
 		"@typescript-eslint/parser": "^6.3.0",
 		"chai": "^4.3.7",
