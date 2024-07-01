@@ -106,7 +106,7 @@ jobs:
         run: rm --verbose --recursive --force dist/tests
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.ARTIFACT_NAME }}
           path: |
